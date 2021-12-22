@@ -32,7 +32,12 @@ type Config struct {
 	ChannelAlias []Channel `mapstructure:"channel"`
 }
 
-var ChannelArg string
+var (
+	ChannelArg string
+	Template   string
+	Attachment string
+	Message    string
+)
 
 // saysCmd represents the says command
 var saysCmd = &cobra.Command{
@@ -55,13 +60,13 @@ var saysCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(saysCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
+	// define your flags and configuration settings.
 	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "", "the channel to send a message to")
+	saysCmd.MarkPersistentFlagRequired("channel")
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// saysCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	saysCmd.PersistentFlags().StringVarP(&Message, "message", "m", "", "the message to send")
+	saysCmd.MarkPersistentFlagRequired("message")
+
+	saysCmd.PersistentFlags().StringVarP(&Template, "template", "t", "", "set the message template")
+	saysCmd.PersistentFlags().StringVarP(&Attachment, "attachment", "a", "", "path to a file to attach to the message")
 }
