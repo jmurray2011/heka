@@ -1,8 +1,9 @@
 workspace:
   - workspace-name: "test"
-    oath-token: "xoxb-123456789012-your-oauth-token"
+    workspace-alias: "default"
     channel:
       #-  channel-name: "channel-name"
       #   webhook: "<webhook-url>"
       - channel-name: "test"
+        channel-alias: "default"
         webhook: "https://hooks.slack.com/services/your/webhook/url"

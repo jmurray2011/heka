@@ -24,14 +24,15 @@ import (
 )
 
 type Workspace struct {
-	WorkspaceName string    `mapstructure:"workspace-name"`
-	OathToken     string    `mapstructure:"oath-token"`
-	Channels      []Channel `mapstructure:"channel"`
+	WorkspaceName  string    `mapstructure:"workspace-name"`
+	WorkspaceAlias string    `mapstructure:"workspace-alias"`
+	Channels       []Channel `mapstructure:"channel"`
 }
 
 type Channel struct {
-	ChannelName string `mapstructure:"channel-name"`
-	Webhook     string `mapstructure:"webhook"`
+	ChannelName  string `mapstructure:"channel-name"`
+	ChannelAlias string `mapstructure:"channel-alias"`
+	Webhook      string `mapstructure:"webhook"`
 }
 
 type Config struct {
@@ -39,28 +40,22 @@ type Config struct {
 }
 
 var (
-	ChannelArg string
-	Template   string
-	Attachment string
-	Message    string
+	WorkspaceArg  string
+	ChannelArg    string
+	TemplateArg   string
+	AttachmentArg string
+	MessageArg    string
 )
 
 // saysCmd represents the says command
 var saysCmd = &cobra.Command{
 	Use:   "says",
-	Short: "A brief description of your command",
+	Short: "Sends a message to Slack channel with optional attachment and message template support",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := viper.ReadInConfig(); err != nil {
-			fmt.Println(err)
-			return
+		if err := loadConfig(); err != nil {
+			fmt.Printf("%v", err)
 		}
-		var config Config
-		if err := viper.Unmarshal(&config); err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Printf("says called, %s\n", config.Workspaces[0].Channels)
 	},
 }
 
@@ -68,12 +63,27 @@ func init() {
 	rootCmd.AddCommand(saysCmd)
 
 	// define flags
-	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "", "the channel to send a message to")
-	saysCmd.MarkPersistentFlagRequired("channel")
-
-	saysCmd.PersistentFlags().StringVarP(&Message, "message", "m", "", "the message to send")
+	saysCmd.PersistentFlags().StringVarP(&MessageArg, "message", "m", "", "the message to send")
 	saysCmd.MarkPersistentFlagRequired("message")
 
-	saysCmd.PersistentFlags().StringVarP(&Template, "template", "t", "", "set the message template")
-	saysCmd.PersistentFlags().StringVarP(&Attachment, "attachment", "a", "", "path to a file to attach to the message")
+	// each of these have default values specified in the config
+	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "default", "the channel to send a message to")
+	saysCmd.PersistentFlags().StringVarP(&WorkspaceArg, "workspace", "w", "default", "the workspace the channel lives on")
+	saysCmd.PersistentFlags().StringVarP(&TemplateArg, "template", "t", "default", "set the message template")
+
+	// file to attach
+	saysCmd.PersistentFlags().StringVarP(&AttachmentArg, "attachment", "a", "", "path to a file to attach to the message")
+}
+
+func loadConfig() error {
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println(err)
+		return err
+	}
+	var config Config
+	if err := viper.Unmarshal(&config); err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
 }
