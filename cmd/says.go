@@ -32,6 +32,8 @@ type Config struct {
 	ChannelAlias []Channel `mapstructure:"channel"`
 }
 
+var ChannelArg string
+
 // saysCmd represents the says command
 var saysCmd = &cobra.Command{
 	Use:   "says",
@@ -46,7 +48,7 @@ var saysCmd = &cobra.Command{
 			fmt.Println(err)
 			return
 		}
-		fmt.Printf("says called, %s\n", config.ChannelAlias[0].ChannelName)
+		fmt.Printf("says called, %s\n", ChannelArg)
 	},
 }
 
@@ -57,7 +59,7 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// saysCmd.PersistentFlags().String("foo", "", "A help for foo")
+	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "", "the channel to send a message to")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
