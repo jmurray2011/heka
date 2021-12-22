@@ -1,5 +1,8 @@
-channel:
-  #-  channel-name: "channel-name"
-  #   webhook: "<webhook-url>"
-  - channel-name: "test"
-    webhook: "https://hooks.slack.com/services/your/webhook/url"
+workspace:
+  - workspace-name: "test"
+    oath-token: "xoxb-123456789012-your-oauth-token"
+    channel:
+      #-  channel-name: "channel-name"
+      #   webhook: "<webhook-url>"
+      - channel-name: "test"
+        webhook: "https://hooks.slack.com/services/your/webhook/url"

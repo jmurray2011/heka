@@ -23,13 +23,19 @@ import (
 	"github.com/spf13/viper"
 )
 
+type Workspace struct {
+	WorkspaceName string    `mapstructure:"workspace-name"`
+	OathToken     string    `mapstructure:"oath-token"`
+	Channels      []Channel `mapstructure:"channel"`
+}
+
 type Channel struct {
 	ChannelName string `mapstructure:"channel-name"`
 	Webhook     string `mapstructure:"webhook"`
 }
 
 type Config struct {
-	ChannelAlias []Channel `mapstructure:"channel"`
+	Workspaces []Workspace `mapstructure:"workspace"`
 }
 
 var (
@@ -46,6 +52,7 @@ var saysCmd = &cobra.Command{
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		if err := viper.ReadInConfig(); err != nil {
+			fmt.Println(err)
 			return
 		}
 		var config Config
@@ -53,14 +60,14 @@ var saysCmd = &cobra.Command{
 			fmt.Println(err)
 			return
 		}
-		fmt.Printf("says called, %s\n", ChannelArg)
+		fmt.Printf("says called, %s\n", config.Workspaces[0].Channels)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(saysCmd)
 
-	// define your flags and configuration settings.
+	// define flags
 	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "", "the channel to send a message to")
 	saysCmd.MarkPersistentFlagRequired("channel")
 
