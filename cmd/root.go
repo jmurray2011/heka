@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 Josh Murray <jmurray2011@gmail.com>
+Copyright © 2021 Josh Murray jmurray2011@gmail.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-
 	"github.com/spf13/cobra"
 
 	"github.com/spf13/viper"
@@ -29,8 +28,13 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "heka",
-	Short: "A simple Slack messenger utilizing Webhooks",
-	Long:  `Heka is a CLI tool cabable of sending Slack messages via Webhooks. Slack channels and their associated Webhook URL are specified as arguments or pulled from heka.yml. Channels can be specified via an alias in the configuration file.`,
+	Short: "A brief description of your application",
+	Long: `A longer description that spans multiple lines and likely contains
+examples and usage of using your application. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },

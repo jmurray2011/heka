@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 Josh Murray <jmurray2011@gmail.com>
+Copyright © 2021 Josh Murray jmurray2011@gmail.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/jmurray2011/heka/cmd"
+import "heka/cmd"
 
 func main() {
 	cmd.Execute()
