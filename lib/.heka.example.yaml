@@ -1,5 +1,5 @@
 channel:
   #-  channel-name: "channel-name"
   #   webhook: "<webhook-url>"
-  - channel-name: "golang"
-    webhook: "https://hooks.slack.com/services/12345sdf54d/122d4s5645d1d4d4d4d4d4d4d4/D3adB33f"
+  - channel-name: "test"
+    webhook: "https://hooks.slack.com/services/your/webhook/url"
