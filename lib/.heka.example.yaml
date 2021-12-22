@@ -1,0 +1,3 @@
+channel:
+  # alias: {channel-name: "channel-name", webhook: "<webhook-url>"
+  golang: {channel-name: "golang-test", webhook: "https://hooks.slack.com/services/12345sdf54d/122d4s5645d1d4d4d4d4d4d4d4/D3adB33f"}
