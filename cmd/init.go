@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
+Copyright © 2021 Josh Murray jmurray2011@gmail.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -29,17 +29,16 @@ var initCmd = &cobra.Command{
 	Short: "Generates a default config file at $HOME/.heka.yaml. Will not overwrite existing configs.",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
+		// copy example config to $HOME/.heka.yaml if it doesn't exist already
+		config_file := fmt.Sprintf("%s/.heka.yaml", os.Getenv("HOME"))
+		example_config := "lib/.heka.example.yaml"
+
+		copy(example_config, config_file)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(initCmd)
-
-	// copy example config to $HOME/.heka.yaml if it doesn't exist already
-	config_file := fmt.Sprintf("%s/.heka.yaml", os.Getenv("HOME"))
-	example_config := "lib/.heka.example.yaml"
-
-	copy(example_config, config_file)
 }
 
 func copy(src, dst string) (int64, error) {

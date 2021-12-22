@@ -20,20 +20,33 @@ import (
 
 	_ "github.com/slack-go/slack"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
+
+type Channel struct {
+	ChannelName string `mapstructure:"channel-name"`
+	Webhook     string `mapstructure:"webhook"`
+}
+
+type Config struct {
+	ChannelAlias []Channel `mapstructure:"channel"`
+}
 
 // saysCmd represents the says command
 var saysCmd = &cobra.Command{
 	Use:   "says",
 	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("says called")
+		if err := viper.ReadInConfig(); err != nil {
+			return
+		}
+		var config Config
+		if err := viper.Unmarshal(&config); err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Printf("says called, %s\n", config.ChannelAlias[0].ChannelName)
 	},
 }
 
