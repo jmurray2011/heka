@@ -49,6 +49,7 @@ func init() {
 func copy(src, dst string) (int64, error) {
 	sourceFileStat, src_err := os.Stat(src)
 	if src_err != nil {
+		log.Fatal(src_err)
 		return 0, src_err
 	}
 
