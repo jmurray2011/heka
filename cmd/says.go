@@ -31,7 +31,7 @@ type Channel struct {
 }
 
 type Config struct {
-	Channels []Channel `mapstructure:"channel"`
+	Channels []Channel `mapstructure:"channels"`
 }
 
 var (
@@ -78,7 +78,7 @@ func sendMessage(channel, message string) error {
 	attachment := slack.Attachment{
 		Color:         "good",
 		Fallback:      "You successfully posted by Incoming Webhook URL!",
-		AuthorName:    "jmurray2011/heka",
+		AuthorName:    "heka",
 		AuthorSubname: "github.com",
 		AuthorLink:    "https://github.com/jmurray2011/heka",
 		AuthorIcon:    "https://avatars2.githubusercontent.com/u/652790",
@@ -91,30 +91,18 @@ func sendMessage(channel, message string) error {
 		Attachments: []slack.Attachment{attachment},
 
 	}
-	if len(config.Channels) == 0 {
-		if viper.Get("channels.name") == channel {
-			webhook := viper.Get("channels.webhook")
-			fmt.Printf("%v", webhook)
-			err := slack.PostWebhook(webhook.(string), &msg)
+
+	for k := range(config.Channels) {
+		if channel == config.Channels[k].ChannelName{
+			webhook := config.Channels[k].Webhook
+			err := slack.PostWebhook(webhook, &msg)
 			if err != nil {
 				fmt.Println(err)
 			}
+			return nil
 		} else {
-			for k := range(config.Channels) {
-				if channel == config.Channels[k].ChannelName{
-					webhook := config.Channels[k].Webhook
-					err := slack.PostWebhook(webhook, &msg)
-					if err != nil {
-						fmt.Println(err)
-					}
-					return nil
-				} else {
-					fmt.Printf("channel '%s' is not in the config file", channel)
-				}
-			}
+			fmt.Printf("channel '%s' is not in the config file", channel)
 		}
-		return nil
 	}
-
 	return nil
 }
