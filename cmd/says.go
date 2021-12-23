@@ -25,24 +25,16 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Workspace struct {
-	WorkspaceName  string    `mapstructure:"workspace-name"`
-	WorkspaceAlias string    `mapstructure:"workspace-alias"`
-	Channels       []Channel `mapstructure:"channel"`
-}
-
 type Channel struct {
-	ChannelName  string `mapstructure:"channel-name"`
-	ChannelAlias string `mapstructure:"channel-alias"`
+	ChannelName string `mapstructure:"name"`
 	Webhook      string `mapstructure:"webhook"`
 }
 
 type Config struct {
-	Workspaces []Workspace `mapstructure:"workspace"`
+	Channels []Channel `mapstructure:"channel"`
 }
 
 var (
-	WorkspaceArg  string
 	ChannelArg    string
 	TemplateArg   string
 	AttachmentArg string
@@ -68,7 +60,6 @@ func init() {
 
 	// each of these have default values specified in the config
 	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "default", "the channel to send a message to")
-	saysCmd.PersistentFlags().StringVarP(&WorkspaceArg, "workspace", "w", "default", "the workspace the channel lives on")
 	saysCmd.PersistentFlags().StringVarP(&TemplateArg, "template", "t", "default", "set the message template")
 
 	// file to attach
@@ -77,12 +68,10 @@ func init() {
 
 func sendMessage(channel, message string) error {
 	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println(err)
 		return err
 	}
 	var config Config
 	if err := viper.Unmarshal(&config); err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -102,25 +91,29 @@ func sendMessage(channel, message string) error {
 		Attachments: []slack.Attachment{attachment},
 
 	}
-
-	for k := range(config.Workspaces) {
-		workspace := config.Workspaces[k].WorkspaceAlias
-		if workspace == WorkspaceArg{
-			fmt.Printf("workspace: %s\n", workspace)
-			for k1 := range(config.Workspaces[k].Channels) {
-				if channel == config.Workspaces[k].Channels[k1].ChannelAlias {
-					fmt.Printf("channel: %s\n", channel)
-					if channel == ChannelArg {
-						webhook := config.Workspaces[k].Channels[k1].Webhook
-						fmt.Printf("webhook: %s\n", webhook)
-						err := slack.PostWebhook(webhook, &msg)
-						if err != nil {
-							fmt.Println(err)
-						}
+	if len(config.Channels) == 0 {
+		if viper.Get("channels.name") == channel {
+			webhook := viper.Get("channels.webhook")
+			fmt.Printf("%v", webhook)
+			err := slack.PostWebhook(webhook.(string), &msg)
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			for k := range(config.Channels) {
+				if channel == config.Channels[k].ChannelName{
+					webhook := config.Channels[k].Webhook
+					err := slack.PostWebhook(webhook, &msg)
+					if err != nil {
+						fmt.Println(err)
 					}
+					return nil
+				} else {
+					fmt.Printf("channel '%s' is not in the config file", channel)
 				}
 			}
 		}
+		return nil
 	}
 
 	return nil

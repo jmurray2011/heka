@@ -26,12 +26,12 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Generates a default config file at $HOME/.heka.yaml. Will not overwrite existing configs.",
+	Short: "Generates a default config file at $HOME/.heka.json. Will not overwrite existing configs.",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		// copy example config to $HOME/.heka.yaml if it doesn't exist already
-		config_file := fmt.Sprintf("%s/.heka.yaml", os.Getenv("HOME"))
-		example_config := "lib/.heka.example.yaml"
+		config_file := fmt.Sprintf("%s/.heka.json", os.Getenv("HOME"))
+		example_config := "lib/.heka.example.json"
 
 		copy(example_config, config_file)
 	},
