@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	_"fmt"
+	"fmt"
 	"encoding/json"
 	"strconv"
 	"time"
@@ -105,7 +105,8 @@ func sendMessage(channel, message string) error {
 			}
 			return nil
 		} else {
-			log.Fatal("channel '%s' is not in the config file", channel)
+			err := fmt.Sprintf("channel '%s' is not in the config file", channel)
+			log.Fatal(err)
 		}
 	}
 	return nil
