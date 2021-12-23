@@ -17,8 +17,10 @@ package cmd
 
 import (
 	"fmt"
-
-	_ "github.com/slack-go/slack"
+	"encoding/json"
+	"strconv"
+	"time"
+	"github.com/slack-go/slack"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -53,9 +55,7 @@ var saysCmd = &cobra.Command{
 	Short: "Sends a message to Slack channel with optional attachment and message template support",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := loadConfig(); err != nil {
-			fmt.Printf("%v", err)
-		}
+		sendMessage(ChannelArg, MessageArg)
 	},
 }
 
@@ -75,7 +75,7 @@ func init() {
 	saysCmd.PersistentFlags().StringVarP(&AttachmentArg, "attachment", "a", "", "path to a file to attach to the message")
 }
 
-func loadConfig() error {
+func sendMessage(channel, message string) error {
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Println(err)
 		return err
@@ -85,5 +85,43 @@ func loadConfig() error {
 		fmt.Println(err)
 		return err
 	}
+
+	attachment := slack.Attachment{
+		Color:         "good",
+		Fallback:      "You successfully posted by Incoming Webhook URL!",
+		AuthorName:    "jmurray2011/heka",
+		AuthorSubname: "github.com",
+		AuthorLink:    "https://github.com/jmurray2011/heka",
+		AuthorIcon:    "https://avatars2.githubusercontent.com/u/652790",
+		Text:           message,
+		Footer:        "heka message",
+		FooterIcon:    "https://platform.slack-edge.com/img/default_application_icon.png",
+		Ts:            json.Number(strconv.FormatInt(time.Now().Unix(), 10)),
+	}
+	msg := slack.WebhookMessage{
+		Attachments: []slack.Attachment{attachment},
+
+	}
+
+	for k := range(config.Workspaces) {
+		workspace := config.Workspaces[k].WorkspaceAlias
+		if workspace == WorkspaceArg{
+			fmt.Printf("workspace: %s\n", workspace)
+			for k1 := range(config.Workspaces[k].Channels) {
+				if channel == config.Workspaces[k].Channels[k1].ChannelAlias {
+					fmt.Printf("channel: %s\n", channel)
+					if channel == ChannelArg {
+						webhook := config.Workspaces[k].Channels[k1].Webhook
+						fmt.Printf("webhook: %s\n", webhook)
+						err := slack.PostWebhook(webhook, &msg)
+						if err != nil {
+							fmt.Println(err)
+						}
+					}
+				}
+			}
+		}
+	}
+
 	return nil
 }
