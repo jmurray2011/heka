@@ -1,3 +1,4 @@
+*.exe
 .heka.yaml
 .vscode/
 heka
