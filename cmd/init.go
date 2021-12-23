@@ -35,7 +35,6 @@ var initCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 		config_file := fmt.Sprintf("%s/.heka.json", homedir)
-		fmt.Println(config_file)
 		example_config := "lib/.heka.example.json"
 
 		copy(example_config, config_file)
@@ -79,6 +78,11 @@ func copy(src, dst string) (int64, error) {
 	}
 	defer destination.Close()
 
-	nBytes, err := io.Copy(destination, source)
-	return nBytes, err
+	if nBytes, err := io.Copy(destination, source); err != nil {
+		log.Fatal(err)
+		return 0, err
+	} else {
+		fmt.Println("config file saved at %s, please update it with the appropriate information", dst)
+		return nBytes, err
+	}
 }

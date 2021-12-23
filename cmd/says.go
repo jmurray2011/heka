@@ -80,7 +80,7 @@ func sendMessage(channel, message string) error {
 
 	attachment := slack.Attachment{
 		Color:         "good",
-		Fallback:      "You successfully posted by Incoming Webhook URL!",
+		Fallback:      "Message from heka!",
 		AuthorName:    "heka",
 		AuthorSubname: "github.com",
 		AuthorLink:    "https://github.com/jmurray2011/heka",
