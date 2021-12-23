@@ -16,10 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	_"fmt"
 	"encoding/json"
 	"strconv"
 	"time"
+	"log"
 	"github.com/slack-go/slack"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -68,10 +69,12 @@ func init() {
 
 func sendMessage(channel, message string) error {
 	if err := viper.ReadInConfig(); err != nil {
+		log.Fatal(err)
 		return err
 	}
 	var config Config
 	if err := viper.Unmarshal(&config); err != nil {
+		log.Fatal(err)
 		return err
 	}
 
@@ -97,11 +100,12 @@ func sendMessage(channel, message string) error {
 			webhook := config.Channels[k].Webhook
 			err := slack.PostWebhook(webhook, &msg)
 			if err != nil {
-				fmt.Println(err)
+				log.Fatal(err)
+				return err
 			}
 			return nil
 		} else {
-			fmt.Printf("channel '%s' is not in the config file", channel)
+			log.Fatal("channel '%s' is not in the config file", channel)
 		}
 	}
 	return nil

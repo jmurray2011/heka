@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"io"
 	"os"
-
+	"log"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +30,12 @@ var initCmd = &cobra.Command{
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		// copy example config to $HOME/.heka.yaml if it doesn't exist already
-		config_file := fmt.Sprintf("%s/.heka.json", os.Getenv("HOME"))
+		homedir, err := os.UserHomeDir()
+		if err != nil {
+			log.Fatal(err)
+		}
+		config_file := fmt.Sprintf("%s/.heka.json", homedir)
+		fmt.Println(config_file)
 		example_config := "lib/.heka.example.json"
 
 		copy(example_config, config_file)
@@ -49,22 +54,26 @@ func copy(src, dst string) (int64, error) {
 
 	_, dst_err := os.Stat(dst)
 	if dst_err == nil {
-		fmt.Printf("%s already exists, not overwriting\n", dst)
+		log.Fatal("%s already exists, not overwriting\n", dst)
 		return 0, dst_err
 	}
 
 	if !sourceFileStat.Mode().IsRegular() {
-		return 0, fmt.Errorf("%s is not a regular file", src)
+		err := fmt.Errorf("%s is not a regular file", src)
+		log.Fatal(err)
+		return 0, err
 	}
 
 	source, err := os.Open(src)
 	if err != nil {
+		log.Fatal(err)
 		return 0, err
 	}
 	defer source.Close()
 
 	destination, err := os.Create(dst)
 	if err != nil {
+		log.Fatal(err)
 		return 0, err
 	}
 	defer destination.Close()
