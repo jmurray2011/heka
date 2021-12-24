@@ -62,10 +62,6 @@ func init() {
 
 	// each of these have default values specified in the config
 	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "default", "the channel to send a message to")
-	saysCmd.PersistentFlags().StringVarP(&TemplateArg, "template", "t", "default", "set the message template")
-
-	// file to attach
-	saysCmd.PersistentFlags().StringVarP(&AttachmentArg, "attachment", "a", "", "path to a file to attach to the message")
 }
 
 func sendMessage(channel, message string) error {

@@ -45,24 +45,15 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
+	cobra.OnInitialize(initLogging)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.heka.json)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file")
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", true, "set logs to verbose")
-
-	// set global logging level
-	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	if verbose {
-		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	}
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
 }
-
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	if cfgFile != "" {
@@ -85,5 +76,13 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		config_msg := fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed())
 		log.Debug().Msg(config_msg)
+	}
+}
+
+func initLogging() {
+	// set global logging level
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if verbose {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 }
