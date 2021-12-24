@@ -80,14 +80,11 @@ func sendMessage(channel, message string) error {
 
 	attachment := slack.Attachment{
 		Color:         "good",
-		Fallback:      "Message from heka!",
 		AuthorName:    "heka",
 		AuthorSubname: "github.com",
 		AuthorLink:    "https://github.com/jmurray2011/heka",
 		AuthorIcon:    "https://avatars2.githubusercontent.com/u/652790",
 		Text:           message,
-		Footer:        "heka message",
-		FooterIcon:    "https://platform.slack-edge.com/img/default_application_icon.png",
 		Ts:            json.Number(strconv.FormatInt(time.Now().Unix(), 10)),
 	}
 	msg := slack.WebhookMessage{
