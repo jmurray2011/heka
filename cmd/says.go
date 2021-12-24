@@ -20,7 +20,7 @@ import (
 	"encoding/json"
 	"strconv"
 	"time"
-	"log"
+    "github.com/rs/zerolog/log"
 	"github.com/slack-go/slack"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -48,6 +48,7 @@ var saysCmd = &cobra.Command{
 	Short: "Sends a message to Slack channel with optional attachment and message template support",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
+		log.Debug().Msg("Sending message")
 		sendMessage(ChannelArg, MessageArg)
 	},
 }
@@ -69,12 +70,14 @@ func init() {
 
 func sendMessage(channel, message string) error {
 	if err := viper.ReadInConfig(); err != nil {
-		log.Fatal(err)
+		conf_err := fmt.Sprintf("%s", err)
+		log.Fatal().Msg(conf_err)
 		return err
 	}
 	var config Config
 	if err := viper.Unmarshal(&config); err != nil {
-		log.Fatal(err)
+		conf_err := fmt.Sprintf("%s", err)
+		log.Fatal().Msg(conf_err)
 		return err
 	}
 
@@ -84,26 +87,26 @@ func sendMessage(channel, message string) error {
 		AuthorSubname: "github.com",
 		AuthorLink:    "https://github.com/jmurray2011/heka",
 		AuthorIcon:    "https://avatars2.githubusercontent.com/u/652790",
-		Text:           message,
+		Text:          message,
 		Ts:            json.Number(strconv.FormatInt(time.Now().Unix(), 10)),
 	}
 	msg := slack.WebhookMessage{
-		Attachments: []slack.Attachment{attachment},
+		Attachments: []slack.Attachment{attachment},	}
 
-	}
-
-	for k := range(config.Channels) {
-		if channel == config.Channels[k].ChannelName{
-			webhook := config.Channels[k].Webhook
+	for k := range config.Channels {
+		if channel == config.Channels[k].ChannelName {
+			webhook := config.Channels[k].Webhook 
 			err := slack.PostWebhook(webhook, &msg)
 			if err != nil {
-				log.Fatal(err)
+				slack_err := fmt.Sprintf("%s", err)
+				log.Fatal().Msg(slack_err)
 				return err
 			}
 			return nil
-		} 
+		}
 		err := fmt.Sprintf("channel '%s' is not in the config file", channel)
-		log.Fatal(err)
+		log.Fatal().Msg(err)
 	}
 	return nil
 }
+

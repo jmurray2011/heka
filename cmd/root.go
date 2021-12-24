@@ -17,7 +17,10 @@ package cmd
 
 import (
 	"fmt"
-	"os"
+	"os"    
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+
 
 	"github.com/spf13/cobra"
 
@@ -25,6 +28,7 @@ import (
 )
 
 var cfgFile string
+var verbose bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -47,6 +51,13 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.heka.json)")
+	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", true, "set logs to verbose")
+
+	// set global logging level
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if verbose {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -72,6 +83,7 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		config_msg := fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed())
+		log.Debug().Msg(config_msg)
 	}
 }
