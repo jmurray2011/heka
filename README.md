@@ -75,6 +75,8 @@ First you will need access to a Slack workspace that you have permissions to bui
 
 Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Incoming-webhooks-for-Slack) on creating a Slack app with access to Incoming Webhooks, then create an Incoming Webhook for the channel(s) you'd like heka to talk to. Make note of the Webhook URLs as you will need to populate the config file with them later.
 
+This is currently only using Incoming Webhooks, so there is no ```oath``` authentication, etc. I will likely add more features, such as the ability to attach files, in the future. For now, no tokens are needed by the project, just an Incoming Webhook URL for each channel you want to talk to.
+
 
 ### Installation
 
@@ -109,6 +111,10 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
 
 - [] Add ability to add/remove channels from the CLI instead of manually editing the config
 - [] Add message templates to allow for custom message formats instead of the default
+- [] Further integrate with Slack API for more functionality
+  - [] List channels and optionally import them to config
+  - [] Generate Incoming Webhook URLs on-the-fly
+  - [] Add ability to attach files to messages
 
 See the [open issues](https://github.com/jmurray2011/heka/issues) for a full list of proposed features (and known issues).
 
