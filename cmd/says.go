@@ -40,6 +40,7 @@ var (
 	ChannelArg string
 	MessageArg string
 )
+var config Config
 
 // saysCmd represents the says command
 var saysCmd = &cobra.Command{
@@ -47,7 +48,16 @@ var saysCmd = &cobra.Command{
 	Short: "Sends a message to Slack channel with optional attachment and message template support",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Debug().Msg("Sending message")
+		if err := viper.ReadInConfig(); err != nil {
+			conf_err := fmt.Sprintf("%s", err)
+			log.Fatal().Msg(conf_err)
+		}
+		if err := viper.Unmarshal(&config); err != nil {
+			conf_err := fmt.Sprintf("%s", err)
+			log.Fatal().Msg(conf_err)
+		}
+		msg_log := fmt.Sprintf("Sending message '%s' to channel '%s'", MessageArg, ChannelArg)
+		log.Debug().Msg(msg_log)
 		sendMessage(ChannelArg, MessageArg)
 	},
 }
@@ -58,24 +68,10 @@ func init() {
 	// define flags
 	saysCmd.PersistentFlags().StringVarP(&MessageArg, "message", "m", "", "the message to send")
 	saysCmd.MarkPersistentFlagRequired("message")
-
-	// each of these have default values specified in the config
-	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "default", "the channel to send a message to")
+	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "", "the channel to send a message to")
 }
 
 func sendMessage(channel, message string) error {
-	if err := viper.ReadInConfig(); err != nil {
-		conf_err := fmt.Sprintf("%s", err)
-		log.Fatal().Msg(conf_err)
-		return err
-	}
-	var config Config
-	if err := viper.Unmarshal(&config); err != nil {
-		conf_err := fmt.Sprintf("%s", err)
-		log.Fatal().Msg(conf_err)
-		return err
-	}
-
 	attachment := slack.Attachment{
 		Color:         "good",
 		AuthorName:    "heka",

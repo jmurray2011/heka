@@ -12,11 +12,6 @@
   <p align="center">
     A simple Slack message tool for the CLI written in Go
     <br />
-    <a href="https://github.com/jmurray2011/heka"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/jmurray2011/heka">View Demo</a>
-    ·
     <a href="https://github.com/jmurray2011/heka/issues">Report Bug</a>
     ·
     <a href="https://github.com/jmurray2011/heka/issues">Request Feature</a>
@@ -55,6 +50,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+This is my first Go project! I'm sure there are 1000 others like it, but this one is mine.
+
+The intent of this app is to be have simple, cross-platform binary that allows for messaging to a specified Slack channel. This can be used manually but the goal is to have something that can alert in automated workflows (like AWS servers booting up or terminating, etc.)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -73,43 +71,37 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+First you will need access to a Slack workspace that you have permissions to build an App on.
 
-### Prerequisites
+Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Incoming-webhooks-for-Slack) on creating a Slack app with access to Incoming Webhooks, then create an Incoming Webhook for the channel(s) you'd like heka to talk to. Make note of the Webhook URLs as you will need to populate the config file with them later.
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/jmurray2011/heka.git
    ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+2. Build the project
+  ```sh
+  go build
+  ```
+3. From inside the project directory, run ```./heka init``` to generate a config file
+4. Edit the config file with the appropriate information (channel name and webhook URL from Slack)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+#### Create a config file (should work for both Linux and Windows):
+   ```./heka init```
+</br>
+#### Send a message to a channel
+```./heka says -m "your message here" -c "your channel here"```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+#### **Optional** specify a different config file
+```./heka says -m "your message here" -c "your channel here" --config /path/to/custom/config/.file.json```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -118,8 +110,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Feature 1
-- [] Feature 2
+- [] Add ability to add/remove channels from the CLI instead of manually editing the config
+- [] Add message templates to allow for custom message formats instead of the default
 - [] Feature 3
     - [] Nested Feature
 
@@ -150,7 +142,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
