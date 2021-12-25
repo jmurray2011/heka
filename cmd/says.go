@@ -16,11 +16,12 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
-    "github.com/rs/zerolog/log"
+
+	"github.com/rs/zerolog/log"
 	"github.com/slack-go/slack"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -28,7 +29,7 @@ import (
 
 type Channel struct {
 	ChannelName string `mapstructure:"name"`
-	Webhook      string `mapstructure:"webhook"`
+	Webhook     string `mapstructure:"webhook"`
 }
 
 type Config struct {
@@ -36,10 +37,8 @@ type Config struct {
 }
 
 var (
-	ChannelArg    string
-	TemplateArg   string
-	AttachmentArg string
-	MessageArg    string
+	ChannelArg string
+	MessageArg string
 )
 
 // saysCmd represents the says command
@@ -87,11 +86,11 @@ func sendMessage(channel, message string) error {
 		Ts:            json.Number(strconv.FormatInt(time.Now().Unix(), 10)),
 	}
 	msg := slack.WebhookMessage{
-		Attachments: []slack.Attachment{attachment},	}
+		Attachments: []slack.Attachment{attachment}}
 
 	for k := range config.Channels {
 		if channel == config.Channels[k].ChannelName {
-			webhook := config.Channels[k].Webhook 
+			webhook := config.Channels[k].Webhook
 			err := slack.PostWebhook(webhook, &msg)
 			if err != nil {
 				slack_err := fmt.Sprintf("%s", err)
@@ -105,4 +104,3 @@ func sendMessage(channel, message string) error {
 	}
 	return nil
 }
-
