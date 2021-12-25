@@ -19,7 +19,8 @@ import (
 	"fmt"
 	"io"
 	"os"
-    "github.com/rs/zerolog/log"
+
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
 
@@ -56,7 +57,7 @@ func copy(src, dst string) error {
 
 	_, dst_err := os.Stat(dst)
 	if dst_err == nil {
-		e := fmt.Sprintf("%s already exists, not overwriting\n", dst)
+		e := fmt.Sprintf("%s already exists, not overwriting", dst)
 		log.Fatal().Msg(e)
 		return dst_err
 	}
