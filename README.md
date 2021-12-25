@@ -54,9 +54,9 @@ This is my first Go project! I'm sure there are 1000 others like it, but this on
 
 The intent of this app is to have a simple, cross-platform binary that allows for messaging to a specified Slack channel. This can be used manually but the goal is something that can alert in automated workflows (like AWS servers booting up or terminating, etc.)
 
+This is currently only using Incoming Webhooks, so there is no ```oath``` authentication, etc. I will likely add more features, such as the ability to attach files, in the future. For now, no tokens are needed by the project, just an Incoming Webhook URL for each channel you want to talk to.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -74,8 +74,6 @@ The intent of this app is to have a simple, cross-platform binary that allows fo
 First you will need access to a Slack workspace that you have permissions to build an App on.
 
 Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Incoming-webhooks-for-Slack) on creating a Slack app with access to Incoming Webhooks, then create an Incoming Webhook for the channel(s) you'd like heka to talk to. Make note of the Webhook URLs as you will need to populate the config file with them later.
-
-This is currently only using Incoming Webhooks, so there is no ```oath``` authentication, etc. I will likely add more features, such as the ability to attach files, in the future. For now, no tokens are needed by the project, just an Incoming Webhook URL for each channel you want to talk to.
 
 
 ### Installation
