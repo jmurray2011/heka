@@ -52,7 +52,7 @@
 
 This is my first Go project! I'm sure there are 1000 others like it, but this one is mine.
 
-The intent of this app is to be have simple, cross-platform binary that allows for messaging to a specified Slack channel. This can be used manually but the goal is to have something that can alert in automated workflows (like AWS servers booting up or terminating, etc.)
+The intent of this app is to have a simple, cross-platform binary that allows for messaging to a specified Slack channel. This can be used manually but the goal is something that can alert in automated workflows (like AWS servers booting up or terminating, etc.)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -97,7 +97,7 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
 #### Send a message to a channel
 ```./heka says -m "your message here" -c "your channel here"```
 
-#### **Optional** specify a different config file
+#### Optionally specify a different config file
 ```./heka says -m "your message here" -c "your channel here" --config /path/to/custom/config/.file.json```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
