@@ -109,8 +109,6 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
 
 - [] Add ability to add/remove channels from the CLI instead of manually editing the config
 - [] Add message templates to allow for custom message formats instead of the default
-- [] Feature 3
-    - [] Nested Feature
 
 See the [open issues](https://github.com/jmurray2011/heka/issues) for a full list of proposed features (and known issues).
 
