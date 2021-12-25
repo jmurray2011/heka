@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"log"
+    "github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +32,8 @@ var initCmd = &cobra.Command{
 		// copy example config to $HOME/.heka.yaml if it doesn't exist already
 		homedir, err := os.UserHomeDir()
 		if err != nil {
-			log.Fatal(err)
+			e := fmt.Sprintf("%s", err)
+			log.Fatal().Msg(e)
 		}
 		config_file := fmt.Sprintf("%s/.heka.json", homedir)
 		example_config := "lib/.heka.example.json"
@@ -45,44 +46,50 @@ func init() {
 	rootCmd.AddCommand(initCmd)
 }
 
-func copy(src, dst string) (int64, error) {
+func copy(src, dst string) error {
 	sourceFileStat, src_err := os.Stat(src)
 	if src_err != nil {
-		log.Fatal(src_err)
-		return 0, src_err
+		e := fmt.Sprintf("%s", src_err)
+		log.Fatal().Msg(e)
+		return src_err
 	}
 
 	_, dst_err := os.Stat(dst)
 	if dst_err == nil {
-		log.Fatal("%s already exists, not overwriting\n", dst)
-		return 0, dst_err
+		e := fmt.Sprintf("%s already exists, not overwriting\n", dst)
+		log.Fatal().Msg(e)
+		return dst_err
 	}
 
 	if !sourceFileStat.Mode().IsRegular() {
-		err := fmt.Errorf("%s is not a regular file", src)
-		log.Fatal(err)
-		return 0, err
+		e := fmt.Sprintf("%s is not a regular file", src)
+		log.Fatal().Msg(e)
+		return fmt.Errorf(e)
 	}
 
 	source, err := os.Open(src)
 	if err != nil {
-		log.Fatal(err)
-		return 0, err
+		e := fmt.Sprintf("%s", err)
+		log.Fatal().Msg(e)
+		return fmt.Errorf(e)
 	}
 	defer source.Close()
 
 	destination, err := os.Create(dst)
 	if err != nil {
-		log.Fatal(err)
-		return 0, err
+		e := fmt.Sprintf("%s", err)
+		log.Fatal().Msg(e)
+		return fmt.Errorf(e)
 	}
 	defer destination.Close()
 
-	if nBytes, err := io.Copy(destination, source); err != nil {
-		log.Fatal(err)
-		return 0, err
+	if _, err := io.Copy(destination, source); err != nil {
+		e := fmt.Sprintf("%s", err)
+		log.Fatal().Msg(e)
+		return fmt.Errorf(e)
 	} else {
-		fmt.Println("config file saved at %s, please update it with the appropriate information", dst)
-		return nBytes, err
+		i := fmt.Sprintf("config file saved at %s, please update it with the appropriate information", dst)
+		log.Info().Msg(i)
+		return fmt.Errorf(i)
 	}
 }
