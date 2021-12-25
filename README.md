@@ -84,10 +84,10 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
    ```
 2. Build the project
   ```sh
-  go build
+   go build
   ```
 3. From inside the project directory, run ```./heka init``` to generate a config file
-4. Edit the config file with the appropriate information (channel name and webhook URL from Slack)
+4. Edit the generated config file with the appropriate information (channel name and webhook URL from Slack)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

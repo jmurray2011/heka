@@ -95,8 +95,8 @@ func sendMessage(channel, message string) error {
 			}
 			return nil
 		}
-		err := fmt.Sprintf("channel '%s' is not in the config file", channel)
-		log.Fatal().Msg(err)
 	}
-	return nil
+	err := fmt.Sprintf("channel '%s' is not in the config file", channel)
+	log.Fatal().Msg(err)
+	return fmt.Errorf(err)
 }
