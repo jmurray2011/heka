@@ -169,6 +169,6 @@ Project Link: [https://github.com/jmurray2011/heka](https://github.com/jmurray20
 [issues-shield]: https://img.shields.io/github/issues/jmurray2011/heka.svg?style=for-the-badge
 [issues-url]: https://github.com/jmurray2011/heka/issues
 [license-shield]: https://img.shields.io/github/license/jmurray2011/heka.svg?style=for-the-badge
-[license-url]: https://github.com/jmurray2011/heka/blob/master/LICENSE.txt
+[license-url]: https://github.com/jmurray2011/heka/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/josh-murray-30418b203/
