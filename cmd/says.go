@@ -54,6 +54,9 @@ func init() {
 	saysCmd.MarkPersistentFlagRequired("message")
 }
 
+// sendMessage sends a Slack message to a specified channel via Incoming Webhook
+// The Incoming Webhook URL is specified per-channel in the heka config file
+// It returns an error if the specified Slack channel isn't in the config file
 func sendMessage(channel, message string) error {
 	attachment := slack.Attachment{
 		Color:         "good",
@@ -79,7 +82,6 @@ func sendMessage(channel, message string) error {
 			return nil
 		}
 	}
-	err := fmt.Sprintf("channel '%s' is not in the config file", channel)
-	log.Fatal().Msgf(err)
-	return fmt.Errorf(err)
+	log.Fatal().Msgf("channel '%s' is not in the config file", channel)
+	return fmt.Errorf("channel '%s' is not in the config file", channel)
 }
