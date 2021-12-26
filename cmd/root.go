@@ -53,8 +53,8 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
 	cobra.OnInitialize(initLogging)
+	cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
@@ -85,7 +85,7 @@ func initConfig() {
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		config_msg := fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed())
-		log.Info().Msg(config_msg)
+		log.Debug().Msg(config_msg)
 	}
 }
 
