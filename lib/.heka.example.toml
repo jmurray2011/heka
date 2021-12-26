@@ -1,0 +1,7 @@
+[[channels]]
+name = "channel1"
+webhook = "https://hooks.slack.com/services/your/second/first/url"
+
+[[channels]]
+name = "channel2"
+webhook = "https://hooks.slack.com/services/your/second/webhook/url"

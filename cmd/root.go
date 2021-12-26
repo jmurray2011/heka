@@ -48,10 +48,10 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".heka" (without extension).
+		// Search config in home directory with name ".heka"
 		viper.AddConfigPath(home)
-		viper.SetConfigType("json")
-		viper.SetConfigName(".heka")
+		viper.SetConfigType("toml")
+		viper.SetConfigName(".heka.toml")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
@@ -60,7 +60,7 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		log.Debug().Msgf("Using config file: %s", viper.ConfigFileUsed())
 	} else {
-		log.Fatal().Msgf("%s", err)
+		log.Debug().Msgf("%s", err)
 	}
 }
 

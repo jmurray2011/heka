@@ -11,7 +11,7 @@ import (
 
 // setup vars for initCmd
 var homedir, _ = os.UserHomeDir()
-var short = fmt.Sprintf("Generates a default config file at %s/.heka.json. Will not overwrite existing configs.", homedir)
+var short = fmt.Sprintf("Generates a default config file at %s/.heka.toml. Will not overwrite existing configs.", homedir)
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
@@ -20,9 +20,9 @@ var initCmd = &cobra.Command{
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		// copy example config to $HOME/.heka.yaml (or Winddows equivalent) if it doesn't exist already
-		config_file := fmt.Sprintf("%s/.heka.json", homedir)
-		example_config := "lib/.heka.example.json"
-
+		config_file := fmt.Sprintf("%s/.heka.toml", homedir)
+		example_config := "lib/.heka.example.toml"
+		log.Debug().Msgf("Copying %s to %s", example_config, config_file)
 		copy(example_config, config_file)
 	},
 }
