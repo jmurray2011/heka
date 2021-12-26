@@ -1,5 +1,6 @@
 {
   "channels": [
-    {"name": "your channel name", "webhook": "https://hooks.slack.com/services/your/webhook/url"}
+    {"name": "your channel name", "webhook": "https://hooks.slack.com/services/your/webhook/url"},
+    {"name": "your second channel name", "webhook": "https://hooks.slack.com/services/your/second/webhook/url"}
   ]
 }
