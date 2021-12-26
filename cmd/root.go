@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/rs/zerolog"
@@ -57,12 +56,11 @@ func initConfig() {
 
 	viper.AutomaticEnv() // read in environment variables that match
 
-	// If a config file is found, read it in.
+	// If a config file is found, read it in. Fail if it is improperly formatted
 	if err := viper.ReadInConfig(); err == nil {
-		config_msg := fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed())
-		log.Debug().Msg(config_msg)
+		log.Debug().Msgf("Using config file: %s", viper.ConfigFileUsed())
 	} else {
-		log.Fatal().Msg("Missing config file, please run heka init")
+		log.Fatal().Msgf("%s", err)
 	}
 }
 
