@@ -19,7 +19,7 @@ var initCmd = &cobra.Command{
 	Short: short,
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		// copy example config to $HOME/.heka.yaml (or Winddows equivalent) if it doesn't exist already
+		// copy example config to $HOME/.heka.toml (or Winddows equivalent) if it doesn't exist already
 		config_file := fmt.Sprintf("%s/.heka.toml", homedir)
 		example_config := "lib/.heka.example.toml"
 		log.Debug().Msgf("Copying %s to %s", example_config, config_file)
