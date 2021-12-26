@@ -59,7 +59,7 @@ func init() {
 func copy(src, dst string) {
 	sourceFileStat, src_err := os.Stat(src)
 	if src_err != nil {
-		e := fmt.Sprintf("%s", src_err)
+		e := fmt.Sprintf("%s doesn't exist: %s", src, src_err)
 		log.Fatal().Msg(e)
 	}
 
@@ -76,20 +76,20 @@ func copy(src, dst string) {
 
 	source, err := os.Open(src)
 	if err != nil {
-		e := fmt.Sprintf("%s", err)
+		e := fmt.Sprintf("Couldn't open %s: %s", src, err)
 		log.Fatal().Msg(e)
 	}
 	defer source.Close()
 
 	destination, err := os.Create(dst)
 	if err != nil {
-		e := fmt.Sprintf("%s", err)
+		e := fmt.Sprintf("Couldn't create %s: %s", dst, err)
 		log.Fatal().Msg(e)
 	}
 	defer destination.Close()
 
 	if _, err := io.Copy(destination, source); err != nil {
-		e := fmt.Sprintf("%s", err)
+		e := fmt.Sprintf("Couldn't copy %s to %s: %s", src, dst, err)
 		log.Fatal().Msg(e)
 	} else {
 		i := fmt.Sprintf("config file saved at %s, please update it with the appropriate information", dst)
