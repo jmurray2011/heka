@@ -86,6 +86,8 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		config_msg := fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed())
 		log.Debug().Msg(config_msg)
+	} else {
+		log.Fatal().Msg("Missing config file, please run heka init")
 	}
 }
 
