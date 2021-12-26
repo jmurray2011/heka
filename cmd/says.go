@@ -57,10 +57,6 @@ var saysCmd = &cobra.Command{
 	Short: "Sends a message to Slack channel with optional attachment and message template support",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := viper.ReadInConfig(); err != nil {
-			conf_err := fmt.Sprintf("%s", err)
-			log.Fatal().Msg(conf_err)
-		}
 		if err := viper.Unmarshal(&config); err != nil {
 			conf_err := fmt.Sprintf("%s", err)
 			log.Fatal().Msg(conf_err)
