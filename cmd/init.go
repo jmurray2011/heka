@@ -59,40 +59,33 @@ func init() {
 func copy(src, dst string) {
 	sourceFileStat, src_err := os.Stat(src)
 	if src_err != nil {
-		e := fmt.Sprintf("%s doesn't exist: %s", src, src_err)
-		log.Fatal().Msg(e)
+		log.Fatal().Msgf("%s doesn't exist: %s", src, src_err)
 	}
 
 	_, dst_err := os.Stat(dst)
 	if dst_err == nil {
-		e := fmt.Sprintf("%s already exists, not overwriting", dst)
-		log.Fatal().Msg(e)
+		log.Fatal().Msgf("%s already exists, not overwriting", dst)
 	}
 
 	if !sourceFileStat.Mode().IsRegular() {
-		e := fmt.Sprintf("%s is not a regular file", src)
-		log.Fatal().Msg(e)
+		log.Fatal().Msgf("%s is not a regular file", src)
 	}
 
 	source, err := os.Open(src)
 	if err != nil {
-		e := fmt.Sprintf("Couldn't open %s: %s", src, err)
-		log.Fatal().Msg(e)
+		log.Fatal().Msgf("Couldn't open %s: %s", src, err)
 	}
 	defer source.Close()
 
 	destination, err := os.Create(dst)
 	if err != nil {
-		e := fmt.Sprintf("Couldn't create %s: %s", dst, err)
-		log.Fatal().Msg(e)
+		log.Fatal().Msgf("Couldn't create %s: %s", dst, err)
 	}
 	defer destination.Close()
 
 	if _, err := io.Copy(destination, source); err != nil {
-		e := fmt.Sprintf("Couldn't copy %s to %s: %s", src, dst, err)
-		log.Fatal().Msg(e)
+		log.Fatal().Msgf("Couldn't copy %s to %s: %s", src, dst, err)
 	} else {
-		i := fmt.Sprintf("config file saved at %s, please update it with the appropriate information", dst)
-		log.Info().Msg(i)
+		log.Info().Msgf("config file saved at %s, please update it with the appropriate information", dst)
 	}
 }
