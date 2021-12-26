@@ -56,32 +56,28 @@ func init() {
 	rootCmd.AddCommand(initCmd)
 }
 
-func copy(src, dst string) error {
+func copy(src, dst string) {
 	sourceFileStat, src_err := os.Stat(src)
 	if src_err != nil {
 		e := fmt.Sprintf("%s", src_err)
 		log.Fatal().Msg(e)
-		return src_err
 	}
 
 	_, dst_err := os.Stat(dst)
 	if dst_err == nil {
 		e := fmt.Sprintf("%s already exists, not overwriting", dst)
 		log.Fatal().Msg(e)
-		return dst_err
 	}
 
 	if !sourceFileStat.Mode().IsRegular() {
 		e := fmt.Sprintf("%s is not a regular file", src)
 		log.Fatal().Msg(e)
-		return fmt.Errorf(e)
 	}
 
 	source, err := os.Open(src)
 	if err != nil {
 		e := fmt.Sprintf("%s", err)
 		log.Fatal().Msg(e)
-		return fmt.Errorf(e)
 	}
 	defer source.Close()
 
@@ -89,17 +85,14 @@ func copy(src, dst string) error {
 	if err != nil {
 		e := fmt.Sprintf("%s", err)
 		log.Fatal().Msg(e)
-		return fmt.Errorf(e)
 	}
 	defer destination.Close()
 
 	if _, err := io.Copy(destination, source); err != nil {
 		e := fmt.Sprintf("%s", err)
 		log.Fatal().Msg(e)
-		return fmt.Errorf(e)
 	} else {
 		i := fmt.Sprintf("config file saved at %s, please update it with the appropriate information", dst)
 		log.Info().Msg(i)
-		return fmt.Errorf(i)
 	}
 }
