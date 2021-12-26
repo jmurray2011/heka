@@ -75,9 +75,9 @@ func init() {
 	rootCmd.AddCommand(saysCmd)
 
 	// define flags
+	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "", "the channel to send a message to")
 	saysCmd.PersistentFlags().StringVarP(&MessageArg, "message", "m", "", "the message to send")
 	saysCmd.MarkPersistentFlagRequired("message")
-	saysCmd.PersistentFlags().StringVarP(&ChannelArg, "channel", "c", "", "the channel to send a message to")
 }
 
 func sendMessage(channel, message string) error {

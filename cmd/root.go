@@ -37,7 +37,7 @@ import (
 )
 
 var cfgFile string
-var verbose bool
+var Verbose bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -61,7 +61,7 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file")
-	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", true, "set logs to verbose")
+	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "set output to verbose")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -85,14 +85,14 @@ func initConfig() {
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		config_msg := fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed())
-		log.Debug().Msg(config_msg)
+		log.Info().Msg(config_msg)
 	}
 }
 
 func initLogging() {
 	// set global logging level
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	if verbose {
+	if Verbose {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 }
