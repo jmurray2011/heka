@@ -1,12 +1,5 @@
 <div id="top"></div>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <h3 align="center">heka</h3>
 
   <p align="center">
@@ -155,20 +148,3 @@ Josh Murray - jmurray2011@gmail.com
 Project Link: [https://github.com/jmurray2011/heka](https://github.com/jmurray2011/heka)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/jmurray2011/heka.svg?style=for-the-badge
-[contributors-url]: https://github.com/jmurray2011/heka/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/jmurray2011/heka.svg?style=for-the-badge
-[forks-url]: https://github.com/jmurray2011/heka/network/members
-[stars-shield]: https://img.shields.io/github/stars/gjmurray2011/heka.svg?style=for-the-badge
-[stars-url]: https://github.com/jmurray2011/heka/stargazers
-[issues-shield]: https://img.shields.io/github/issues/jmurray2011/heka.svg?style=for-the-badge
-[issues-url]: https://github.com/jmurray2011/heka/issues
-[license-shield]: https://img.shields.io/github/license/jmurray2011/heka.svg?style=for-the-badge
-[license-url]: https://github.com/jmurray2011/heka/blob/master/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/josh-murray-30418b203/
