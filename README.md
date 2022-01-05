@@ -77,7 +77,7 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
   ```go build```
 3. From inside the project directory, run ```./heka init``` to generate a config file
 4. Edit the generated config file with the appropriate information (channel name and webhook URL from Slack)
-   1. running ```./heka init``` will output the location of the ```.heka.json``` config file for your OS (Windows or Linux)
+   1. running ```./heka init``` will output the location of the ```.heka.toml``` config file for your OS (Windows or Linux)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -91,7 +91,7 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
 ```./heka says -m "your message here" -c "your channel here"```
 
 #### Optionally specify a different config file
-```./heka says -m "your message here" -c "your channel here" --config /path/to/custom/config/.file.json```
+```./heka says -m "your message here" -c "your channel here" --config /path/to/custom/config/.file.toml```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
