@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -36,15 +37,15 @@ var saysCmd = &cobra.Command{
 	Long:  "will accept piped input if --message/-m is not specified, such as `echo 'hello' | heka says -c example`",
 	Run: func(cmd *cobra.Command, args []string) {
 		pipeInfo, _ := os.Stdin.Stat()
+		builder := strings.Builder{}
 		log.Trace().
 			Msgf("pipeInfo.Mode(): %v", pipeInfo.Mode())
 		if pipeInfo.Mode() != os.ModeCharDevice {
 			scanner := bufio.NewScanner(os.Stdin)
-			res := ""
 			for scanner.Scan() {
-				res += scanner.Text() + "\n"
+				builder.WriteString(fmt.Sprintf("%s\n", scanner.Text()))
 			}
-			MessageArg = res
+			MessageArg = builder.String()
 		}
 		if err := viper.Unmarshal(&config); err != nil {
 			conf_err := fmt.Sprintf("%s", err)
@@ -56,6 +57,7 @@ var saysCmd = &cobra.Command{
 	},
 }
 
+// init initializes the cobra commands and arguments
 func init() {
 	rootCmd.AddCommand(saysCmd)
 

@@ -98,8 +98,6 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
 ## Roadmap
 
