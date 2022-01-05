@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strconv"
 	"time"
 
@@ -31,8 +33,18 @@ var config Config
 var saysCmd = &cobra.Command{
 	Use:   "says",
 	Short: "Sends a message to Slack channel with optional attachment and message template support",
-	Long:  "",
+	Long:  "will accept piped input if --message/-m is not specified, such as `echo 'hello' | heka says -c example`",
 	Run: func(cmd *cobra.Command, args []string) {
+		pipeInfo, _ := os.Stdin.Stat()
+		log.Debug().
+			Msgf("pipeInfo.Mode(): %v", pipeInfo.Mode())
+		if pipeInfo.Mode() != os.ModeCharDevice {
+			reader := bufio.NewReader(os.Stdin)
+			res, _ := reader.ReadString('\n')
+			log.Debug().
+				Msgf("text: %s", res)
+			MessageArg = res
+		}
 		if err := viper.Unmarshal(&config); err != nil {
 			conf_err := fmt.Sprintf("%s", err)
 			log.Fatal().Msg(conf_err)
@@ -51,7 +63,6 @@ func init() {
 	saysCmd.MarkPersistentFlagRequired("channel")
 
 	saysCmd.PersistentFlags().StringVarP(&MessageArg, "message", "m", "", "the message to send")
-	saysCmd.MarkPersistentFlagRequired("message")
 }
 
 // sendMessage sends a Slack message to a specified channel via Incoming Webhook
