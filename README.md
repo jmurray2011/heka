@@ -93,6 +93,12 @@ Follow the [Slack instructions](https://slack.com/help/articles/115005265063-Inc
 #### Optionally specify a different config file
 ```./heka says -m "your message here" -c "your channel here" --config /path/to/custom/config/.file.toml```
 
+#### Send piped output as a message
+```echo "Hello, World!" | ./heka says -c example```
+
+
+__Note that this does not work with multi-line input; "Hello,\nWorld!" would only output "Hello,"__
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
