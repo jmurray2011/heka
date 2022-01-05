@@ -36,13 +36,14 @@ var saysCmd = &cobra.Command{
 	Long:  "will accept piped input if --message/-m is not specified, such as `echo 'hello' | heka says -c example`",
 	Run: func(cmd *cobra.Command, args []string) {
 		pipeInfo, _ := os.Stdin.Stat()
-		log.Debug().
+		log.Trace().
 			Msgf("pipeInfo.Mode(): %v", pipeInfo.Mode())
 		if pipeInfo.Mode() != os.ModeCharDevice {
-			reader := bufio.NewReader(os.Stdin)
-			res, _ := reader.ReadString('\n')
-			log.Debug().
-				Msgf("text: %s", res)
+			scanner := bufio.NewScanner(os.Stdin)
+			res := ""
+			for scanner.Scan() {
+				res += scanner.Text() + "\n"
+			}
 			MessageArg = res
 		}
 		if err := viper.Unmarshal(&config); err != nil {
