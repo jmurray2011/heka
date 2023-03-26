@@ -40,7 +40,7 @@ var saysCmd = &cobra.Command{
 		builder := strings.Builder{}
 		log.Trace().
 			Msgf("pipeInfo.Mode(): %v", pipeInfo.Mode())
-		if pipeInfo.Mode() != os.ModeCharDevice {
+		if MessageArg == "" && pipeInfo.Mode() != os.ModeCharDevice {
 			scanner := bufio.NewScanner(os.Stdin)
 			for scanner.Scan() {
 				builder.WriteString(fmt.Sprintf("%s\n", scanner.Text()))

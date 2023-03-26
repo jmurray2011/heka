@@ -1,6 +1,6 @@
 package main
 
-import "heka/cmd"
+import "github.com/jmurray2011/heka/cmd"
 
 func main() {
 	cmd.Execute()
